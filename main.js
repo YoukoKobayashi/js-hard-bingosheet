@@ -85,6 +85,7 @@ arrNum[2][2] = "free";
 
 const view = document.getElementById("view");
 const tr = document.createElement("tr");
+let tdsValues = [];
 view.appendChild(tr);
 for (let t = 0; t < arrTtl.length; t++) {
     const th = document.createElement("th");
@@ -98,8 +99,10 @@ for (let r = 0; r < 5; r++) {
         const td = document.createElement("td");
         td.textContent = arrNum[c][r];
         view.appendChild(td);
+        tdsValues.push(arrNum[c][r]);
     }
 }
+console.log(tdsValues);
 
 //challenge
 const hitNum = document.getElementById("hitNum");
@@ -108,15 +111,24 @@ hitNum.addEventListener("click", () => {
         Math.floor(Math.random() * 75) + 1;
     alert(`${selectNum}です`);
 
-    const tdd =
-        document.getElementsByTagName("td");
-    let i;
-    Array.from(tdd).forEach((_, i) => {
-        if (tdd[i].textContent === selectNum) {
-            tdd[i].setAttribute(
-                "class",
-                "hit-num"
-            );
+    for (r = 0; r < 5; r++) {
+        for (c = 0; c < 5; c++) {
+            for (let i = 0; i < 25; i++) {
+                const tds =
+                    document.getElementsByTagName(
+                        "td"
+                    )[i];
+                if (
+                    arrNum[c][r] === selectNum &&
+                    arrNum[c][r] ===
+                        tds.textContent
+                ) {
+                    tds.setAttribute(
+                        "class",
+                        "hit-num"
+                    );
+                }
+            }
         }
-    });
+    }
 });
