@@ -63,72 +63,132 @@ const arrTtl = ["B", "I", "N", "G", "O"];
 
 const arrNum = [];
 for (let a = 1; a <= 5; a++) {
-    const arr = [];
-    let i = 0;
-    while (i < 5) {
-        let n =
-            Math.floor(
-                Math.random() *
-                    (15 * a - 15 * (a - 1))
-            ) +
-            15 * (a - 1) +
-            1;
-        if (arr.includes(n) === false) {
-            arr.push(n);
-            i += 1;
-        }
+  const arr = [];
+  let i = 0;
+  while (i < 5) {
+    let n =
+      Math.floor(Math.random() * (15 * a - 15 * (a - 1))) + 15 * (a - 1) + 1;
+    if (arr.includes(n) === false) {
+      arr.push(n);
+      i += 1;
     }
-    arrNum.push(arr);
+  }
+  arrNum.push(arr);
 }
 arrNum[2][2] = "free";
-//console.log(arrNum);
+console.log(arrNum);
 
 const view = document.getElementById("view");
 const tr = document.createElement("tr");
 let tdsValues = [];
 view.appendChild(tr);
 for (let t = 0; t < arrTtl.length; t++) {
-    const th = document.createElement("th");
-    th.textContent = arrTtl[t];
-    view.appendChild(th);
+  const th = document.createElement("th");
+  th.textContent = arrTtl[t];
+  view.appendChild(th);
 }
 for (let r = 0; r < 5; r++) {
-    const tr = document.createElement("tr");
-    view.appendChild(tr);
-    for (let c = 0; c < 5; c++) {
-        const td = document.createElement("td");
-        td.textContent = arrNum[c][r];
-        view.appendChild(td);
-        tdsValues.push(arrNum[c][r]);
+  const tr = document.createElement("tr");
+  view.appendChild(tr);
+  for (let c = 0; c < 5; c++) {
+    const td = document.createElement("td");
+    td.textContent = arrNum[c][r];
+    view.appendChild(td);
+    tdsValues.push(arrNum[c][r]);
+    // freeを反転
+    if (td.textContent === "free") {
+      td.setAttribute("class", "hit-num");
     }
+  }
 }
+
 console.log(tdsValues);
 
-//challenge
 const hitNum = document.getElementById("hitNum");
+const duppli = [];
 hitNum.addEventListener("click", () => {
-    const selectNum =
-        Math.floor(Math.random() * 75) + 1;
+  let selectNum = Math.floor(Math.random() * 75) + 1;
+  // ランダムな数値の重複確認
+  //   duppli.push(selectNum);
+  //   if (duppli.includes(selectNum) === false) {
+  //     duppli.push(selectNum);
+  //   } else {
+  //     selectNum = Math.floor(Math.random() * 75) + 1;
+  //     if (duppli.includes(selectNum) === false) {
+  //       duppli.push(selectNum);
+  //     } else {
+  //       selectNum = Math.floor(Math.random() * 75) + 1;
+  //       if (duppli.includes(selectNum) === false) {
+  //         duppli.push(selectNum);
+  //       }
+  //     }
+  //   }
+  //   alert(`${selectNum}です`);
+  while (duppli.includes(selectNum) === true) {
+    selectNum = Math.floor(Math.random() * 75) + 1;
+  }
+  if (duppli.includes(selectNum) === false) {
+    duppli.push(selectNum);
     alert(`${selectNum}です`);
-
-    for (r = 0; r < 5; r++) {
-        for (c = 0; c < 5; c++) {
-            for (let i = 0; i < 25; i++) {
-                const tds =
-                    document.getElementsByTagName(
-                        "td"
-                    )[i];
-                if (
-                    arrNum[c][r] === selectNum &&
-                    arrNum[c][r] ===
-                        tds.textContent
-                ) {
-                    tds.setAttribute(
-                        "class",
-                        "hit-num"
-                    );
-                }
-            }
-        }
+  }
+  console.log(duppli);
+  const tds = document.getElementsByTagName("td");
+  for (c = 0; c < tds.length; c++) {
+    //selectNumとtds[c].textContentの数値を比較,型を一致させる
+    if (String(selectNum) === tds[c].textContent) {
+      tds[c].setAttribute("class", "hit-num");
     }
+  }
 });
+
+// //bingo-
+// const tdb = document.getElementsByTagName("td");
+// let cName = "hit-num";
+// let cnt = 0;
+// while (cnt < 4) {
+//   for (r = 0; r < 5; r++) {
+//     for (c = 0; c < 5; c++) {
+//       if (tdb[r + c * 5].getAttribute("class") === cName) {
+//         cnt++;
+//       }
+//     }
+//   }
+//   //   if (cnt === 5) {
+//   //     alert("ビンゴ！");
+//   //   }
+
+//   //bingo|
+//   cnt = 0;
+//   for (r = 0; r <= 20; r + 5) {
+//     for (c = 0; c < 5; c++) {
+//       if (tdb[r + c].getAttribute("class") === cName) {
+//         cnt++;
+//       }
+//     }
+//   }
+//   //   if (cnt === 5) {
+//   //     alert("ビンゴ！");
+//   //   }
+
+//   //bingo\
+//   cnt = 0;
+//   for (c = 0; c < 5; c++) {
+//     if (tdb[c + c * 5].getAttribute("class") === cName) {
+//       cnt++;
+//     }
+//   }
+//   //   if (cnt === 5) {
+//   //     alert("ビンゴ！");
+//   //   }
+
+//   //bingo/
+//   cnt = 0;
+//   for (c = 1; c <= 5; c * 4) {
+//     if (tdb[c].getAttribute("class") === cName) {
+//       cnt++;
+//     }
+//   }
+// }
+// if (cnt === 5) {
+//   alert("ビンゴ！");
+// }
